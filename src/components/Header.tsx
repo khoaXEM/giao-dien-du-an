@@ -2,12 +2,19 @@
 import React from "react";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
 
+// ✅ Khai báo kiểu props để nhận state từ component cha
+type HeaderProps = {
+    selectedCategory: string;
+    setSelectedCategory: (category: string) => void;
+};
+// ✅ Danh mục thời trang
 const filters = [
     "Tất cả", "Áo thun", "Áo khoác", "Quần Jean", "Giày Sneaker", "Dép", "Phụ kiện",
     "Mới về", "Đang giảm giá", "Hot Trend"
 ];
 
-export default function Header() {
+// ✅ Nhận props từ component cha
+export default function Header({ selectedCategory, setSelectedCategory }: HeaderProps) {
     return (
         <header className="mb-8 space-y-6">
             {/* 🔰 Logo + nút hành động nổi bật */}
@@ -43,7 +50,11 @@ export default function Header() {
                 {filters.map((f) => (
                     <button
                         key={f}
-                        className="px-4 py-2 text-sm bg-gray-100 hover:bg-green-100 text-gray-700 rounded-md transition"
+                        onClick={() => setSelectedCategory(f)} // ✅ cập nhật danh mục khi click
+                        className={`px-4 py-2 text-sm rounded-md transition ${selectedCategory === f
+                            ? "bg-green-500 text-white"
+                            : "bg-gray-100 hover:bg-green-100 text-gray-700"
+                            }`}
                     >
                         {f}
                     </button>

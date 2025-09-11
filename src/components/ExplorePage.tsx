@@ -2,40 +2,45 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-// ✅ Danh mục thời trang giống với Header.tsx
+// ✅ Danh mục thời trang 
 const categories = [
-    "Tất cả",
-    "Áo thun",
-    "Áo khoác",
-    "Quần Jean",
-    "Giày Sneaker",
-    "Dép",
-    "Phụ kiện",
-    "Mới về",
-    "Đang giảm giá",
-    "Hot Trend",
+    "Tất cả", "Áo thun", "Áo khoác", "Quần Jean", "Giày Sneaker", "Dép", "Phụ kiện",
+    "Mới về", "Đang giảm giá", "Hot Trend"
 ];
 
-// ✅ Danh sách sản phẩm từ PixerHome
+// ✅ Danh sách sản phẩm 
 const products = [
-    { title: "Quan Jean Nam Rach Goi", price: "$59.00", oldPrice: "$65.00", author: "DangKhoa", img: "/quanjean.png" },
-    { title: "Ao Khoac Nam Denim", price: "$7.99", author: "DangKhoa", img: "/aokhoacdenim.png" },
-    { title: "Ao Thun Nam Nu Co Tron", price: "$15.00", author: "DangKhoa", img: "/aothuncotronTBG.png" },
-    { title: "Giay Sneaker MLB Nam Nu", price: "$43.00", oldPrice: "$49.00", author: "DangKhoa", img: "/giayMLB.png" },
-    { title: "Ao khoac Hoodie Nam Nu", price: "$23.00", oldPrice: "$49.00", author: "DangKhoa", img: "/hoodieZip.png" },
-    { title: "Dep Banh Mi", price: "$13.00", oldPrice: "$49.00", author: "DangKhoa", img: "/depbanhmi.png" },
-    { title: "Giay Sneaker NiceShoes Nam Nu", price: "$13.00", oldPrice: "$49.00", author: "DangKhoa", img: "/sneakerNiceshoes.png" },
-    { title: "Giay Sneaker LV trainer Nam Nu", price: "$45.00", oldPrice: "$49.00", author: "DangKhoa", img: "/trainerLV.png" },
-    { title: "Giay Sneaker AF1 Canvas Navy", price: "$30.00", oldPrice: "$49.00", author: "DangKhoa", img: "/AF1CanvasNavy.png" },
+    { title: "Quần Jean Nam Rách Gối", price: "$59.00", oldPrice: "$65.00", author: "DangKhoa", img: "/quanjean.png", category: "Quần Jean" },
+    { title: "Áo Khoác Nam Denim", price: "$7.99", author: "DangKhoa", img: "/aokhoacdenim.png", category: "Áo khoác" },
+    { title: "Áo Thun Nam Nữ Cổ Tròn", price: "$15.00", author: "DangKhoa", img: "/aothuncotronTBG.png", category: "Áo thun" },
+    { title: "Giày Sneaker MLB Nam Nữ", price: "$43.00", oldPrice: "$49.00", author: "DangKhoa", img: "/giayMLB.png", category: "Giày Sneaker" },
+    { title: "Áo Khoác Hoodie Nam Nữ", price: "$23.00", oldPrice: "$49.00", author: "DangKhoa", img: "/hoodieZip.png", category: "Áo khoác" },
+    { title: "Dép Bánh Mì", price: "$13.00", oldPrice: "$49.00", author: "DangKhoa", img: "/depbanhmi.png", category: "Dép" },
+    { title: "Giày Sneaker NiceShoes Nam Nữ", price: "$13.00", oldPrice: "$49.00", author: "DangKhoa", img: "/sneakerNiceshoes.png", category: "Giày Sneaker" },
+    { title: "Giày Sneaker LV trainer Nam Nữ", price: "$45.00", oldPrice: "$49.00", author: "DangKhoa", img: "/trainerLV.png", category: "Giày Sneaker" },
+    { title: "Giày Sneaker AF1 Canvas Navy", price: "$30.00", oldPrice: "$49.00", author: "DangKhoa", img: "/AF1CanvasNavy.png", category: "Giày Sneaker" },
+    { title: "Túi Đeo Chéo Start-V2 Nam Nữ", price: "$20.00", oldPrice: "$49.00", author: "DangKhoa", img: "/tuideocheoV2.png", category: "Phụ kiện" },
+    { title: "Quần Jean Nam Phối Dây", price: "$20.00", oldPrice: "$49.00", author: "DangKhoa", img: "/quanjeanphoiday.png", category: "Quần Jean" },
+    { title: "Áo Thun ROTS-VN Nam Nữ", price: "$25.00", oldPrice: "$49.00", author: "DangKhoa", img: "/aothunROTS-VN.png", category: "Áo thun" },
+    { title: "Áo Polo Morpheus Nam Nữ", price: "$10.00", oldPrice: "$49.00", author: "DangKhoa", img: "/aopoloMorpheus.png", category: "Áo polo" },
+    { title: "Quần Jean Ống Rộng Cạp Chun MR.Smile", price: "$25.00", oldPrice: "$49.00", author: "DangKhoa", img: "/quanjeanongrongMrSmile.png", category: "Quần Jean" },
+    { title: "Túi Đeo Chéo Nam Nữ NY", price: "$20.00", oldPrice: "$49.00", author: "DangKhoa", img: "/tuideocheoNY.png", category: "Phụ kiện" },
+    { title: "Túi Tote Đeo Chéo Nam Nữ", price: "$20.00", oldPrice: "$49.00", author: "DangKhoa", img: "/tuiToteDeoCheo.png", category: "Phụ kiện" },
+    { title: "Áo Thun 1969STUDIO Nam Nữ", price: "$25.00", oldPrice: "$49.00", author: "DangKhoa", img: "/aothun1969STUDIO.png", category: "Áo thun" },
+    { title: "Quần Jean Nam Thêu 8 sao", price: "$27.00", oldPrice: "$49.00", author: "DangKhoa", img: "/quanjean8sao.png", category: "Quần Jean" },
+    { title: "Túi Đeo Chéo Canvas Nam Nữ W", price: "$20.00", oldPrice: "$49.00", author: "DangKhoa", img: "/tuideocheoCanvasW.png", category: "Phụ kiện" },
+    { title: "Áo Hoodie Zip Tarbo.Club", price: "$22.00", oldPrice: "$49.00", author: "DangKhoa", img: "/hoodieZipTarboClub.png", category: "Áo khoác" },
 ];
 
 export default function ExplorePage() {
     // ✅ State lưu danh mục đang chọn
     const [selectedCategory, setSelectedCategory] = useState("Tất cả");
 
-    // ✅ Lọc sản phẩm theo danh mục (hiện tại chỉ hiển thị khi chọn "Tất cả")
+    // ✅ Lọc sản phẩm theo danh mục
     const filteredProducts =
-        selectedCategory === "Tất cả" ? products : [];
+        selectedCategory === "Tất cả"
+            ? products
+            : products.filter((p) => p.category === selectedCategory);
 
     return (
         <div className="space-y-8">
@@ -52,7 +57,7 @@ export default function ExplorePage() {
             <section>
                 <h2 className="text-xl font-bold mb-4">Khám phá theo danh mục</h2>
 
-                {/* ✅ Các nút lọc danh mục — giống style trong Header.tsx */}
+                {/* ✅ Các nút lọc danh mục */}
                 <div className="flex flex-wrap gap-3">
                     {categories.map((category) => (
                         <button
@@ -75,7 +80,7 @@ export default function ExplorePage() {
                 <span className="font-semibold text-green-600">{selectedCategory}</span>
             </div>
 
-            {/* 🛍️ Hiển thị sản phẩm nếu chọn "Tất cả" */}
+            {/* 🛍️ Hiển thị sản phẩm đã lọc */}
             {filteredProducts.length > 0 && (
                 <section>
                     <h2 className="text-xl font-bold mb-4">Sản phẩm nổi bật</h2>
