@@ -1,15 +1,16 @@
-"use client";
-import React from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { FaUser } from "react-icons/fa";
+"use client"; // ✅ Khai báo đây là component phía client trong Next.js
 
-// ✅ Kiểu props nhận từ component cha
+import React from "react";
+import { motion } from "framer-motion"; // ✅ Thư viện tạo hiệu ứng động khi hover/click
+import Image from "next/image"; // ✅ Component tối ưu ảnh của Next.js
+import { FaUser } from "react-icons/fa"; // ✅ Icon người đăng sản phẩm
+
+// ✅ Kiểu props nhận từ component cha để lọc theo danh mục
 type PixerHomeProps = {
     selectedCategory: string;
 };
 
-// ✅ Danh sách sản phẩm
+// ✅ Danh sách sản phẩm mẫu
 const products = [
     { title: "Quần Jean Nam Rách Gối", price: "$59.00", oldPrice: "$65.00", author: "DangKhoa", img: "/quanjean.png", category: "Quần Jean" },
     { title: "Áo Khoác Nam Denim", price: "$7.99", author: "DangKhoa", img: "/aokhoacdenim.png", category: "Áo khoác" },
@@ -31,11 +32,19 @@ const products = [
     { title: "Quần Jean Nam Thêu 8 sao", price: "$27.00", oldPrice: "$49.00", author: "DangKhoa", img: "/quanjean8sao.png", category: "Quần Jean" },
     { title: "Túi Đeo Chéo Canvas Nam Nữ W", price: "$20.00", oldPrice: "$49.00", author: "DangKhoa", img: "/tuideocheoCanvasW.png", category: "Phụ kiện" },
     { title: "Áo Hoodie Zip Tarbo.Club", price: "$22.00", oldPrice: "$49.00", author: "DangKhoa", img: "/hoodieZipTarboClub.png", category: "Áo khoác" },
+    { title: "Áo Khoác Da Loang CoolCrew", price: "$30.00", oldPrice: "$49.00", author: "DangKhoa", img: "/aokhoacCoolCrew.png", category: "Áo khoác" },
+    { title: "Áo Thun Skull-ROTSTUDIO", price: "$19.00", oldPrice: "$49.00", author: "DangKhoa", img: "/aothunSkull-ROTSTUDIO.png", category: "Áo thun" },
+    { title: "Áo Thun Nam Nữ Vasnava", price: "$18.00", oldPrice: "$49.00", author: "DangKhoa", img: "/aothunVasnava.png", category: "Áo thun" },
+    { title: "Áo Thun Nam Nữ NEOGEN", price: "$18.00", oldPrice: "$49.00", author: "DangKhoa", img: "/aothunNEOGEN.png", category: "Áo thun" },
+    { title: "Áo Khoác Dù Nam Nữ", price: "$20.00", oldPrice: "$49.00", author: "DangKhoa", img: "/aokhoacduNamNu.png", category: "Áo khoác" },
+    { title: "Áo Khoác Jean IMAN", price: "$30.00", oldPrice: "$49.00", author: "DangKhoa", img: "/aokhoacJeanIMAN.png", category: "Áo khoác" },
+    { title: "Túi Đeo Chéo Nam Nữ BARAS", price: "$36.00", oldPrice: "$49.00", author: "DangKhoa", img: "/tuideocheoBARAS.png", category: "Phụ kiện" },
+    { title: "Quần Jean Nam Ống Rộng Menswear", price: "$27.00", oldPrice: "$49.00", author: "DangKhoa", img: "/quanjeanongrongMenswear.png", category: "Quần Jean" },
 ];
 
-// ✅ Component chính
+// ✅ Component chính hiển thị sản phẩm
 export default function PixerHome({ selectedCategory }: PixerHomeProps) {
-    // ✅ Lọc sản phẩm theo danh mục
+    // ✅ Lọc sản phẩm theo danh mục được chọn
     const filteredProducts =
         selectedCategory === "Tất cả"
             ? products
@@ -43,31 +52,36 @@ export default function PixerHome({ selectedCategory }: PixerHomeProps) {
 
     return (
         <div className="main-content">
-            <h1 className="text-2xl font-bold mb-8">Sản phẩm shop tui</h1>
+            {/* ✅ Tiêu đề trang, có hỗ trợ màu chữ cho Darkmode */}
+            <h1 className="text-2xl font-bold mb-8 text-gray-800 dark:text-white">
+                Sản phẩm shop tui
+            </h1>
 
-            {/* ✅ Grid hiển thị sản phẩm */}
+            {/* ✅ Grid hiển thị sản phẩm theo hàng/cột, responsive */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducts.map((product, idx) => (
                     <motion.div
                         key={idx}
-                        className="border rounded-lg overflow-hidden bg-white shadow-sm transition-all"
-                        style={{
-                            perspective: 1000, // ✅ Tạo chiều sâu cho hiệu ứng xoay
-                        }}
+                        className="border rounded-lg overflow-hidden 
+                       bg-white dark:bg-gray-800 
+                       shadow-sm hover:shadow-md 
+                       transition-all cursor-pointer"
+                        style={{ perspective: 1000 }} // ✅ Tạo chiều sâu cho hiệu ứng xoay
                         whileHover={{
-                            scale: 1.015, // ✅ Phóng to nhẹ
-                            rotateX: -2, // ✅ Xoay nhẹ theo trục X
-                            y: -1, // ✅ Nâng nhẹ
+                            scale: 1.015,       // ✅ Phóng to nhẹ khi hover
+                            rotateX: -2,        // ✅ Xoay nhẹ theo trục X
+                            y: -1,              // ✅ Nâng nhẹ lên
                             boxShadow: "0 8px 20px rgba(34,197,94,0.15)", // ✅ Bóng mềm
-                            backgroundColor: "#f6fff9", // ✅ Nền sáng nhẹ
-                            borderColor: "#22c55e", // ✅ Viền xanh
+                            borderColor: "#22c55e",     // ✅ Viền xanh khi hover
                         }}
+                        whileTap={{ scale: 0.97 }} // ✅ Nhún nhẹ khi click
                         transition={{
-                            type: "tween", // ✅ Tween mượt hơn spring
-                            ease: "easeOut", // ✅ Mềm mại khi kết thúc
-                            duration: 0.25, // ✅ Nhanh nhưng không gấp
+                            type: "tween",     // ✅ Tween mượt hơn spring
+                            ease: "easeOut",   // ✅ Mềm mại khi kết thúc
+                            duration: 0.25,    // ✅ Nhanh nhưng không gấp
                         }}
                     >
+                        {/* ✅ Ảnh sản phẩm, dùng Next/Image để tối ưu */}
                         <Image
                             src={product.img}
                             alt={product.title}
@@ -76,18 +90,30 @@ export default function PixerHome({ selectedCategory }: PixerHomeProps) {
                             className="w-full h-48 object-cover"
                         />
 
-                        <div className="p-4">
-                            <h2 className="text-base font-semibold mb-1">{product.title}</h2>
+                        {/* ✅ Nội dung sản phẩm */}
+                        <div className="p-4 text-gray-800 dark:text-gray-100">
+                            {/* ✅ Tên sản phẩm */}
+                            <h2 className="text-base font-semibold mb-1">
+                                {product.title}
+                            </h2>
 
-                            <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-                                <FaUser className="text-green-500" />
+                            {/* ✅ Tác giả sản phẩm */}
+                            <div className="flex items-center gap-2 
+                              text-gray-500 dark:text-gray-300 
+                              text-sm mb-2">
+                                <FaUser className="text-green-500 dark:text-green-400" />
                                 <span>{product.author}</span>
                             </div>
 
-                            <div className="flex items-center gap-2 text-lg font-bold text-green-600">
+                            {/* ✅ Giá sản phẩm */}
+                            <div className="flex items-center gap-2 
+                              text-lg font-bold 
+                              text-green-600 dark:text-green-400">
                                 <span>{product.price}</span>
+
+                                {/* ✅ Giá gạch ngang nếu có */}
                                 {product.oldPrice && (
-                                    <span className="text-gray-400 line-through text-sm">
+                                    <span className="text-gray-400 dark:text-gray-500 line-through text-sm">
                                         {product.oldPrice}
                                     </span>
                                 )}
