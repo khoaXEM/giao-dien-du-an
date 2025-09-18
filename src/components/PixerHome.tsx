@@ -70,7 +70,7 @@ export default function PixerHome({ selectedCategory }: PixerHomeProps) {
         <div className="w-full px-4 space-y-8">
             {/* ✅ Tiêu đề trang, có hỗ trợ màu chữ cho Darkmode */}
             <h1 className="text-2xl font-bold mb-8 text-gray-800 dark:text-white">
-                Sản phẩm shop tui
+
             </h1>
 
             {/* ✅ Grid hiển thị sản phẩm theo hàng/cột, responsive */}
