@@ -2,41 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ✅ Style mặc định cho Lightmode */
+/* ✅ Dùng Tailwind để kiểm soát theme */
 body {
-  background: #f5f5f5;
-  color: #222;
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
+  @apply bg-white text-black font-sans m-0;
 }
 
-/* ✅ Style cho Darkmode */
 .dark body {
-  background: #111827;
-  /* ✅ Màu nền tối */
-  color: #f3f4f6;
-  /* ✅ Màu chữ sáng */
+  @apply bg-slate-900 text-slate-100;
 }
 
-/* ✅ Sidebar giữ nguyên, nhưng thêm hỗ trợ dark */
 .sidebar {
-  width: 240px;
-  background: #fff;
-  border-right: 1px solid #eee;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  @apply w-[240px] bg-white border-r border-[#eee] flex flex-col justify-between;
 }
 
 .dark .sidebar {
-  background: #1f2937;
-  /* ✅ Nền sidebar tối */
-  border-right: 1px solid #374151;
-  /* ✅ Viền sidebar tối */
+  @apply bg-neutral-800 border-r border-neutral-700;
 }
 
-/* ✅ Layout giữ nguyên */
-.layout {
-  display: flex;
-  min-height: 100vh;
+button {
+  @apply transition;
+}
+
+.dark button {
+  @apply bg-slate-700 text-slate-100 hover:bg-green-600;
+}
+
+/* ✅ Thêm vào globals.css */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

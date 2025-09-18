@@ -1,21 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import PixerHome from "../components/PixerHome";
 
 export default function Home() {
-  // ✅ State lưu danh mục đang chọn
-  const [selectedCategory, setSelectedCategory] = useState("Tất cả");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [isDark, setIsDark] = useState(true);
+
+  // ✅ Gắn class 'dark' vào <html> khi isDark thay đổi
+  useEffect(() => {
+    const html = document.documentElement;
+    if (isDark) {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  }, [isDark]);
 
   return (
-    <div className="space-y-8">
-      {/* ✅ Truyền props xuống Header để xử lý chọn danh mục */}
+    <div className="w-full space-y-8 bg-white dark:bg-neutral-900 text-black dark:text-neutral-100 transition-colors duration-300 min-h-screen px-4">
+      {/* ✅ Header giống ExplorePage */}
       <Header
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
+        isDark={isDark}
+        setIsDark={setIsDark}
       />
 
-      {/* ✅ Truyền props xuống PixerHome để lọc sản phẩm */}
+      {/* ✅ Hiển thị sản phẩm giống ExplorePage */}
       <PixerHome selectedCategory={selectedCategory} />
     </div>
   );
