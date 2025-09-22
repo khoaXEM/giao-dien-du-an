@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useRef, useState, useEffect } from "react";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
@@ -50,7 +51,8 @@ export default function Header({
     };
 
     return (
-        <header className="w-full px-6 py-4 space-y-6 border-b border-neutral-700 bg-white dark:bg-neutral-900 text-black dark:text-neutral-100">
+        // ✅ Sửa tại đây: dùng sticky để giữ header đứng yên khi cuộn
+        <header className="sticky top-0 z-[1000] w-full px-6 py-4 space-y-6 border-b border-neutral-700 bg-white dark:bg-neutral-900 text-black dark:text-neutral-100">
             {/* 🔰 Logo + nhóm nút hành động */}
             <div className="flex items-center justify-between">
                 {/* ✅ Logo nâng cấp giống Pixer */}
@@ -84,13 +86,11 @@ export default function Header({
                         className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-green-500 cursor-pointer transition"
                         viewBox="0 0 24 24"
                         fill="currentColor"
-
                     >
                         <rect x="3" y="3" width="18" height="6" rx="1" />
                         <rect x="3" y="13" width="8" height="8" rx="1" />
                         <rect x="13" y="13" width="8" height="8" rx="1" />
                     </svg>
-
 
                     {/* 🛍️ Giỏ hàng có badge */}
                     <div className="relative cursor-pointer">
@@ -98,7 +98,6 @@ export default function Header({
                             className="text-xl text-gray-600 dark:text-gray-300 hover:text-green-500 transition"
                             title="Giỏ hàng"
                         />
-
                     </div>
 
                     {/* ✅ CTA: Trở thành người bán — GIỮ NGUYÊN */}
@@ -136,8 +135,7 @@ export default function Header({
                         <button
                             key={f}
                             onClick={() => setSelectedCategory(f)}
-                            className={`px-4 py-2 text-sm rounded-md transition whitespace-nowrap
-                ${selectedCategory === f
+                            className={`px-4 py-2 text-sm rounded-md transition whitespace-nowrap ${selectedCategory === f
                                     ? "bg-green-500 text-white shadow-md scale-[1.05]"
                                     : "bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-neutral-100 hover:bg-green-100 dark:hover:bg-green-600"
                                 }`}
