@@ -63,7 +63,7 @@ export default function PixerHome({ selectedCategory }: PixerHomeProps) {
         setTimeout(() => {
             setVisibleCount((prev) => prev + 6);
             setIsLoading(false);
-        }, 1500); // ✅ delay 1.5s
+        }, 1000); // ✅ delay 1s
     };
 
     return (
@@ -154,7 +154,7 @@ export default function PixerHome({ selectedCategory }: PixerHomeProps) {
                         onClick={handleLoadMore}
                         className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
                     >
-                        Xem thêm
+                        Load More
                     </button>
                 </div>
             )}
