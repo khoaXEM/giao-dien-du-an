@@ -76,7 +76,7 @@ export default function ExplorePage() {
         setTimeout(() => {
             setVisibleCount((prev) => prev + 6);
             setIsLoading(false);
-        }, 1500); // ✅ delay 1.5s
+        }, 500); // ✅ delay 0.5s
     };
 
     return (
@@ -143,22 +143,26 @@ export default function ExplorePage() {
                             : visibleProducts.map((p) => (
                                 <motion.div
                                     key={p.title}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 8 }} // ✅ Load nhanh hơn
                                     animate={{ opacity: 1, y: 0 }}
-                                    whileHover={{
-                                        scale: 1.03,
-                                        y: -4,
-                                        boxShadow: "0 12px 24px rgba(34,197,94,0.2)",
-                                        borderColor: "#22c55e",
-                                    }}
-                                    whileTap={{ scale: 0.98 }}
                                     transition={{
-                                        type: "spring",
-                                        stiffness: 200,
-                                        damping: 20,
+                                        duration: 0.2, // ✅ Phản hồi tức thì
+                                        ease: "linear",
                                     }}
+                                    whileHover={{
+                                        scale: 1.01, // ✅ Nhô lên nhẹ
+                                        y: -1,
+                                        boxShadow: "0 6px 12px rgba(34,197,94,0.1)", // ✅ Đổ bóng mềm
+                                        borderColor: "#22c55e",
+                                        transition: {
+                                            duration: 0.15, // ✅ Hover nhanh
+                                            ease: "easeOut",
+                                        },
+                                    }}
+                                    whileTap={{ scale: 0.98 }} // ✅ Phản hồi khi click
                                     className="border rounded-lg overflow-hidden bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all cursor-pointer"
                                     style={{ perspective: 1000 }}
+
                                 >
                                     {/* ✅ Ảnh sản phẩm */}
                                     <Image
@@ -196,7 +200,8 @@ export default function ExplorePage() {
                                 onClick={handleLoadMore}
                                 className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
                             >
-                                Xem thêm
+                                Load more
+
                             </button>
                         </div>
                     )}
