@@ -4,7 +4,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import BannerSlider from "./BannerSlider";
 import CategoryTabs from "./CategoryTabs";
+import ProductCard from "./ProductCard"; // ✅ Component hiển thị sản phẩm
+import ProductModal from "./ProductModal"; // ✅ Component hiển thị mô tả chi tiết
 import { FaSortAmountDown } from "react-icons/fa"; // ✅ Icon sắp xếp
+import { Product } from "../type"; // ✅ Import kiểu dữ liệu
 
 // ✅ Danh sách sản phẩm
 const products = [
@@ -39,10 +42,27 @@ const products = [
 ];
 
 export default function ExplorePage() {
+    // ✅ State quản lý danh mục đang chọn
     const [selectedCategory, setSelectedCategory] = useState("All");
-    const [sortType, setSortType] = useState("newest"); // ✅ Kiểu sắp xếp
-    const [visibleCount, setVisibleCount] = useState(6); // ✅ Số sản phẩm hiển thị ban đầu
-    const [isLoading, setIsLoading] = useState(false);   // ✅ Trạng thái loading giả
+
+    // ✅ State quản lý kiểu sắp xếp
+    const [sortType, setSortType] = useState("newest");
+
+    // ✅ State quản lý số lượng sản phẩm hiển thị
+    const [visibleCount, setVisibleCount] = useState(6);
+
+    // ✅ State loading giả khi bấm “Load more”
+    const [isLoading, setIsLoading] = useState(false);
+
+    // ✅ State quản lý sản phẩm đang được preview
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+    // ✅ Hàm mở modal preview
+    const handlePreview = (product: Product) => setSelectedProduct(product);
+
+    // ✅ Hàm đóng modal
+    const closeModal = () => setSelectedProduct(null);
+
 
     // ✅ Lọc sản phẩm theo danh mục
     const filteredProducts =
@@ -70,7 +90,7 @@ export default function ExplorePage() {
     // ✅ Cắt danh sách theo số lượng hiển thị
     const visibleProducts = sortedProducts.slice(0, visibleCount);
 
-    // ✅ Hàm xử lý khi bấm nút “Xem thêm”
+    // ✅ Hàm xử lý khi bấm nút “Load more”
     const handleLoadMore = () => {
         setIsLoading(true);
         setTimeout(() => {
@@ -141,55 +161,8 @@ export default function ExplorePage() {
                                 </div>
                             ))
                             : visibleProducts.map((p) => (
-                                <motion.div
-                                    key={p.title}
-                                    initial={{ opacity: 0, y: 8 }} // ✅ Load nhanh hơn
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{
-                                        duration: 0.2, // ✅ Phản hồi tức thì
-                                        ease: "linear",
-                                    }}
-                                    whileHover={{
-                                        scale: 1.01, // ✅ Nhô lên nhẹ
-                                        y: -1,
-                                        boxShadow: "0 6px 12px rgba(34,197,94,0.1)", // ✅ Đổ bóng mềm
-                                        borderColor: "#22c55e",
-                                        transition: {
-                                            duration: 0.15, // ✅ Hover nhanh
-                                            ease: "easeOut",
-                                        },
-                                    }}
-                                    whileTap={{ scale: 0.98 }} // ✅ Phản hồi khi click
-                                    className="border rounded-lg overflow-hidden bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all cursor-pointer"
-                                    style={{ perspective: 1000 }}
+                                <ProductCard key={p.title} product={p} onPreview={handlePreview} />
 
-                                >
-                                    {/* ✅ Ảnh sản phẩm */}
-                                    <Image
-                                        src={p.img || "/placeholder.jpg"}
-                                        alt={p.title}
-                                        width={320}
-                                        height={160}
-                                        className="w-full h-48 object-cover"
-                                    />
-
-                                    {/* ✅ Nội dung sản phẩm */}
-                                    <div className="p-4 text-gray-800 dark:text-gray-100">
-                                        <h3 className="text-base font-semibold mb-1">{p.title}</h3>
-                                        <div className="flex items-center gap-2 text-gray-500 dark:text-gray-300 text-sm mb-2">
-                                            <span className="text-green-500 dark:text-green-400 font-bold">👤</span>
-                                            <span>{p.author}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-lg font-bold text-green-600 dark:text-green-400">
-                                            <span>{p.price}</span>
-                                            {p.oldPrice && (
-                                                <span className="text-gray-400 dark:text-gray-500 line-through text-sm">
-                                                    {p.oldPrice}
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-                                </motion.div>
                             ))}
                     </div>
 
@@ -207,6 +180,10 @@ export default function ExplorePage() {
                     )}
                 </section>
             )}
+
+            {/* ✅ Modal mô tả chi tiết sản phẩm */}
+            <ProductModal product={selectedProduct} onClose={closeModal} />
+
         </div>
     );
 }

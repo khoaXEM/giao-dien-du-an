@@ -5,6 +5,9 @@ import { motion } from "framer-motion"; // ✅ Thư viện tạo hiệu ứng đ
 import Image from "next/image"; // ✅ Tối ưu ảnh trong Next.js
 import { FaUser } from "react-icons/fa"; // ✅ Icon người đăng sản phẩm
 import CategoryTabs from "./CategoryTabs"; // ✅ Component danh mục đã tối ưu
+import ProductCard from "./ProductCard"; // ✅ Component hiển thị sản phẩm
+import ProductModal from "./ProductModal"; // ✅ Component hiển thị mô tả chi tiết
+import { Product } from "../type"; // ✅ Import kiểu dữ liệu
 
 // ✅ Kiểu props nhận từ component cha để lọc theo danh mục
 type PixerHomeProps = {
@@ -48,6 +51,9 @@ const products = [
 export default function PixerHome({ selectedCategory }: PixerHomeProps) {
     const [visibleCount, setVisibleCount] = useState(6); // ✅ Số lượng sản phẩm hiển thị ban đầu
     const [isLoading, setIsLoading] = useState(false);   // ✅ Trạng thái loading giả
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // ✅ State quản lý sản phẩm đang được preview
+    const handlePreview = (product: Product) => setSelectedProduct(product);  // ✅ Hàm mở modal preview
+    const closeModal = () => setSelectedProduct(null); // ✅ Hàm đóng modal
 
     // ✅ Lọc sản phẩm theo danh mục được chọn
     const filteredProducts =
@@ -92,58 +98,7 @@ export default function PixerHome({ selectedCategory }: PixerHomeProps) {
                         </div>
                     ))
                     : visibleProducts.map((product, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, y: 8 }} // ✅ Load nhanh hơn
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{
-                                duration: 0.2, // ✅ Phản hồi tức thì
-                                ease: "linear",
-                            }}
-                            whileHover={{
-                                scale: 1.01, // ✅ Nhô lên nhẹ
-                                y: -1,
-                                boxShadow: "0 6px 12px rgba(34,197,94,0.1)", // ✅ Đổ bóng mềm
-                                borderColor: "#22c55e",
-                                transition: {
-                                    duration: 0.15, // ✅ Hover nhanh
-                                    ease: "easeOut",
-                                },
-                            }}
-                            whileTap={{ scale: 0.98 }} // ✅ Phản hồi khi click
-                            className="border rounded-lg overflow-hidden bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all cursor-pointer"
-                            style={{ perspective: 1000 }}
-                        >
-                            {/* ✅ Ảnh sản phẩm */}
-                            <Image
-                                src={product.img || "/placeholder.jpg"}
-                                alt={product.title}
-                                width={320}
-                                height={160}
-                                className="w-full h-48 object-cover"
-                            />
-
-                            {/* ✅ Nội dung sản phẩm */}
-                            <div className="p-4 text-gray-800 dark:text-gray-100">
-                                <h2 className="text-base font-semibold mb-1">
-                                    {product.title}
-                                </h2>
-
-                                <div className="flex items-center gap-2 text-gray-500 dark:text-gray-300 text-sm mb-2">
-                                    <FaUser className="text-green-500 dark:text-green-400" />
-                                    <span>{product.author}</span>
-                                </div>
-
-                                <div className="flex items-center gap-2 text-lg font-bold text-green-600 dark:text-green-400">
-                                    <span>{product.price}</span>
-                                    {product.oldPrice && (
-                                        <span className="text-gray-400 dark:text-gray-500 line-through text-sm">
-                                            {product.oldPrice}
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-                        </motion.div>
+                        <ProductCard key={product.title} product={product} onPreview={handlePreview} />
                     ))}
             </div>
 
@@ -158,6 +113,8 @@ export default function PixerHome({ selectedCategory }: PixerHomeProps) {
                     </button>
                 </div>
             )}
+            {/* ✅ Modal mô tả chi tiết sản phẩm */}
+            <ProductModal product={selectedProduct} onClose={closeModal} />
         </div>
     );
 }
